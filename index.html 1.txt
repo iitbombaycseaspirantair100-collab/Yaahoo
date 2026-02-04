@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Surprise ❤️</title><style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  height:100vh;
+  overflow:hidden;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  color:white;
+}
+.page{
+  display:none;
+  height:100vh;
+  width:100vw;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+.page.active{display:flex}
+
+h1,h2{margin-bottom:20px}
+
+button{
+  padding:14px 28px;
+  font-size:18px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+}
+.yes{background:#ff4d6d;color:white}
+.no{
+  background:#111;
+  color:white;
+  position:absolute;
+}
+
+input[type=date]{
+  padding:14px;
+  font-size:16px;
+  border-radius:14px;
+  border:none;
+}
+
+/* FINAL PAGE */
+.final{
+  background:black;
+  height:100vh;
+  width:100vw;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.final img{
+  max-width:95%;
+  max-height:95%;
+}
+</style></head><body><!-- PAGE 1 --><div class="page active" id="page1">
+  <div>
+    <h1>Will you be my Valentine? 💖</h1>
+    <button class="yes" id="yesBtn">Yes 💕</button>
+  </div>
+  <button class="no" id="noBtn">No 😈</button>
+</div><!-- PAGE 2 --><div class="page" id="page2">
+  <div>
+    <h2>Choose our date 💕</h2>
+    <input type="date" id="dateInput">
+    <br><br>
+    <button class="yes" id="dateNext">Proceed</button>
+  </div>
+</div><!-- PAGE 3 --><div class="page" id="page3">
+  <div>
+    <h2>One last step 🎁</h2>
+    <button class="yes" id="giftBtn">Claim Gift</button>
+  </div>
+</div><!-- PAGE 4 (FINAL) --><div class="page" id="page4">
+  <div class="final">
+    <img src="https://wallpapers.com/images/hd/funny-profile-picture-1l2l3tmmbobjqd53.jpg" alt="Final Image">
+    <audio id="bgAudio" loop preload="auto">
+      <source src="https://tuna.voicemod.net/sound/cdf5679d-b438-4c79-b479-b97f5ebf7589" type="audio/mpeg">
+    </audio>
+  </div>
+</div><script>
+// PAGE SWITCH
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+n).classList.add('active');
+}
+
+// YES BUTTON
+const yesBtn = document.getElementById('yesBtn');
+yesBtn.addEventListener('click',()=>showPage(2));
+
+// NO BUTTON (UNLIMITED MOVE – MOBILE SAFE)
+const noBtn = document.getElementById('noBtn');
+function moveNo(){
+  const x = Math.random()*(window.innerWidth-noBtn.offsetWidth);
+  const y = Math.random()*(window.innerHeight-noBtn.offsetHeight);
+  noBtn.style.left=x+'px';
+  noBtn.style.top=y+'px';
+}
+noBtn.addEventListener('click',moveNo);
+noBtn.addEventListener('touchstart',moveNo);
+
+// DATE CHECK
+const dateNext=document.getElementById('dateNext');
+dateNext.addEventListener('click',()=>{
+  if(!document.getElementById('dateInput').value){
+    alert('Date choose karo 😤');
+    return;
+  }
+  showPage(3);
+});
+
+// GIFT BUTTON → FINAL PAGE + GUARANTEED SOUND
+const giftBtn=document.getElementById('giftBtn');
+giftBtn.addEventListener('click',()=>{
+  showPage(4);
+  const a=document.getElementById('bgAudio');
+  a.volume=1.0;
+  a.play().catch(()=>{
+    const force=()=>{a.play();document.removeEventListener('click',force);document.removeEventListener('touchstart',force)};
+    document.addEventListener('click',force);
+    document.addEventListener('touchstart',force);
+  });
+});
+</script></body>
+</html>
